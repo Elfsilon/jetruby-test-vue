@@ -112,6 +112,24 @@ body {
 	color: #828282;
 }
 
+@media screen and (max-width: 600px) {
+	.text_fs_xs {
+		font-size: 14px;
+	}
+
+	.text_fs_s {
+		font-size: 18px;
+	}
+
+	.text_fs_m {
+		font-size: 25px;
+	}
+
+	.text_fs_l {
+		font-size: 30px;
+	}
+}
+
 /* Button */
 .button {
 	color: #5e5e5e;
@@ -152,5 +170,28 @@ body {
 .button_bright {
 	color: #b8b8b8;
 	border-color: #b8b8b8;
+}
+
+@media screen and (max-width: 600px) {
+	.button_size_s {
+		padding: 6px 15px;
+		border-width: 2px;
+		border-radius: 20px;
+		font-size: 20px;
+	}
+
+	.button_size_m {
+		padding: 8px 25px;
+		border-width: 3px;
+		border-radius: 25px;
+		font-size: 25px;
+	}
+
+	.button_size_l {
+		padding: 10px 35px;
+		border-width: 3px;
+		border-radius: 30px;
+		font-size: 30px;
+	}
 }
 </style>

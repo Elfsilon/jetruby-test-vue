@@ -7,14 +7,14 @@
 				mouseOverCol = colSelected;
 			"
 		>
-			<div class="settings__row" v-for="i in 8" :key="i" @mouseenter="mouseOverRow = i">
+			<div class="settings__row" v-for="i in maxBoardRows" :key="i" @mouseenter="mouseOverRow = i">
 				<div
 					class="settings__cell"
 					:class="{
 						settings__cell_highlight: cellInSelectedArea(i, j),
 						settings__cell_highlight_wrong: cellInWrongSelectedArea(i, j),
 					}"
-					v-for="j in 8"
+					v-for="j in maxBoardCols"
 					:key="j"
 					@mouseenter="mouseOverCol = j"
 					@click="selectSize"
@@ -34,6 +34,8 @@ export default {
 	props: ['rowsCount', 'colsCount'],
 	data() {
 		return {
+			maxBoardRows: window.innerWidth > 600 ? 8 : 6,
+			maxBoardCols: window.innerWidth > 600 ? 8 : 6,
 			mouseOverRow: 4,
 			mouseOverCol: 4,
 			rowSelected: this.rowsCount,
@@ -125,5 +127,51 @@ export default {
 
 .settings_highlight_wrong {
 	background-color: rgb(238, 148, 163);
+}
+
+@media screen and (max-width: 600px) {
+	.settings {
+		background-color: white;
+		border-radius: 20px;
+		padding: 20px 30px;
+		display: flex;
+		height: 244px;
+	}
+
+	.settings__board {
+		width: 204px;
+		margin-right: 30px;
+	}
+
+	.settings__caption {
+		margin-bottom: 3px;
+	}
+
+	.settings__size {
+		margin-bottom: 18px;
+	}
+}
+
+@media screen and (max-width: 380px) {
+	.settings {
+		background-color: white;
+		border-radius: 20px;
+		padding: 10px 15px;
+		display: flex;
+		height: 224px;
+	}
+
+	.settings__board {
+		width: 204px;
+		margin-right: 10px;
+	}
+
+	.settings__caption {
+		margin-bottom: 3px;
+	}
+
+	.settings__size {
+		margin-bottom: 18px;
+	}
 }
 </style>

@@ -28,8 +28,6 @@ export default {
 			},
 			disabledCount: 0,
 			disabledGoal: (this.rowsCount * this.colsCount) / 2,
-			// cells: this.createCells(this.rowsCount * this.colsCount),
-			// cellsArray: this.createCellArray(this.cells),
 			cells: {},
 			cellsArray: [],
 		};
