@@ -1,6 +1,11 @@
 <template>
 	<div class="game-wrapper">
-		<TheModal v-if="modalOpened"></TheModal>
+		<TheModal
+			@game-settings-changes="changeSettings"
+			:class="{ modal_hidden: isModalHidden }"
+			:rowsCount="settings.rowsCount"
+			:colsCount="settings.colsCount"
+		></TheModal>
 		<TheMenu
 			@start-game="startGame"
 			@open-modal="openModal"
@@ -32,10 +37,10 @@ export default {
 	data() {
 		return {
 			openedPage: 'menu',
-			modalOpened: false,
+			isModalHidden: true,
 			settings: {
-				rowsCount: 2,
-				colsCount: 3,
+				rowsCount: 4,
+				colsCount: 4,
 			},
 		};
 	},
@@ -44,10 +49,18 @@ export default {
 			this.openedPage = 'menu';
 		},
 
-		openModal: function() {},
+		openModal: function() {
+			this.isModalHidden = false;
+		},
 
 		startGame: function() {
 			this.openedPage = 'game';
+		},
+
+		changeSettings: function(newRowCount, newColCount) {
+			this.settings.rowsCount = newRowCount;
+			this.settings.colsCount = newColCount;
+			this.isModalHidden = true;
 		},
 	},
 };

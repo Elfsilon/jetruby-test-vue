@@ -28,15 +28,22 @@ export default {
 			},
 			disabledCount: 0,
 			disabledGoal: (this.rowsCount * this.colsCount) / 2,
-			cells: this.createCells(this.rowsCount * this.colsCount),
+			// cells: this.createCells(this.rowsCount * this.colsCount),
+			// cellsArray: this.createCellArray(this.cells),
+			cells: {},
+			cellsArray: [],
 		};
 	},
 	methods: {
 		resetSettings: function() {
-			this.cells = this.cells.map((c) => {
-				c.disabled = false;
-				return c;
-			});
+			let newCells = {};
+			for (const [key, value] of Object.entries(this.cells)) {
+				newCells[key] = value;
+				newCells[key].disabled = false;
+				newCells[key].hidden = true;
+			}
+			this.cells = newCells;
+			this.createCellArray(this.cells);
 			this.isFinished = false;
 			this.disabledCount = 0;
 			this.previousCellData.id = undefined;
@@ -99,27 +106,18 @@ export default {
 		splitCellsToChunks: function(itemsInRow) {
 			let res = [];
 			let tmp = [];
-			for (let i = 0; i <= this.cells.length; i++) {
+			for (let i = 0; i <= this.cellsArray.length; i++) {
 				if (i != 0 && i % itemsInRow == 0) {
 					res.push(tmp);
 					tmp = [];
 				}
-				tmp.push(this.cells[i]);
-			}
-			return res;
-		},
-
-		createCells: function(count) {
-			let res = [];
-			for (let id = 0; id < count; id++) {
-				res.push(this.getCellData(id, count));
+				tmp.push(this.cellsArray[i]);
 			}
 			return res;
 		},
 
 		getCellData: function(id, count) {
 			let colorId = id % (count / 2);
-			console.log(id, colorId);
 			let brightness;
 
 			if (colorId < 8) brightness = 50;
@@ -135,6 +133,31 @@ export default {
 				disabled: false,
 			};
 		},
+
+		createCells: function(count) {
+			let res = {};
+			for (let id = 0; id < count; id++) {
+				res[id] = this.getCellData(id, count);
+			}
+			this.cells = Object.assign({}, res);
+		},
+
+		createCellArray: function(cells) {
+			this.cellsArray = this.shuffleArray(Object.values(cells));
+		},
+
+		shuffleArray: function(array) {
+			let shuffled = [...array];
+			for (let i = array.length - 1; i > 0; i--) {
+				const j = Math.floor(Math.random() * (i + 1));
+				[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+			}
+			return shuffled;
+		},
+	},
+	mounted() {
+		this.createCells(this.rowsCount * this.colsCount);
+		this.createCellArray(this.cells);
 	},
 };
 </script>
