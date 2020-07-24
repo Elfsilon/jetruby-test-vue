@@ -1,24 +1,29 @@
 <template>
 	<div class="game-wrapper">
-		<TheModal
-			@game-settings-changes="changeSettings"
-			:class="{ modal_hidden: isModalHidden }"
-			:rowsCount="settings.rowsCount"
-			:colsCount="settings.colsCount"
-		></TheModal>
-		<TheMenu
-			@start-game="startGame"
-			@open-modal="openModal"
-			v-if="openedPage == 'menu'"
-			:rowsCount="settings.rowsCount"
-			:colsCount="settings.colsCount"
-		></TheMenu>
-		<TheGame
-			@open-menu="openMenu"
-			v-if="openedPage == 'game'"
-			:rowsCount="settings.rowsCount"
-			:colsCount="settings.colsCount"
-		></TheGame>
+		<transition name="fade" mode="out-in">
+			<TheModal
+				v-if="isModalVisible"
+				@game-settings-changes="changeSettings"
+				:rowsCount="settings.rowsCount"
+				:colsCount="settings.colsCount"
+				:visible="isModalVisible"
+			></TheModal>
+		</transition>
+		<transition name="fade" mode="out-in">
+			<TheMenu
+				@start-game="startGame"
+				@open-modal="openModal"
+				v-if="openedPage == 'menu'"
+				:rowsCount="settings.rowsCount"
+				:colsCount="settings.colsCount"
+			></TheMenu>
+			<TheGame
+				@open-menu="openMenu"
+				v-if="openedPage == 'game'"
+				:rowsCount="settings.rowsCount"
+				:colsCount="settings.colsCount"
+			></TheGame>
+		</transition>
 	</div>
 </template>
 
@@ -37,7 +42,7 @@ export default {
 	data() {
 		return {
 			openedPage: 'menu',
-			isModalHidden: true,
+			isModalVisible: false,
 			settings: {
 				rowsCount: 4,
 				colsCount: 4,
@@ -50,7 +55,7 @@ export default {
 		},
 
 		openModal: function() {
-			this.isModalHidden = false;
+			this.isModalVisible = true;
 		},
 
 		startGame: function() {
@@ -60,7 +65,7 @@ export default {
 		changeSettings: function(newRowCount, newColCount) {
 			this.settings.rowsCount = newRowCount;
 			this.settings.colsCount = newColCount;
-			this.isModalHidden = true;
+			this.isModalVisible = false;
 		},
 	},
 };
@@ -77,6 +82,18 @@ body {
 	padding: 0;
 }
 
+/* Fade transition */
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.22s;
+}
+
+.fade-enter,
+.fade-leave-to {
+	opacity: 0;
+}
+
+/* Local */
 .game-wrapper {
 	width: 100%;
 	height: 100vh;

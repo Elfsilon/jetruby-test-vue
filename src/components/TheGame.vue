@@ -1,7 +1,9 @@
 <template>
 	<div class="game">
-		<GameFinal v-if="isFinished"></GameFinal>
-		<GameBoard v-else @cell-clicked="cellClicked" :chunks="splitCellsToChunks(colsCount)"></GameBoard>
+		<transition name="fade" mode="out-in">
+			<GameFinal v-if="isFinished"></GameFinal>
+			<GameBoard v-else @cell-clicked="cellClicked" :chunks="splitCellsToChunks(colsCount)"></GameBoard>
+		</transition>
 		<div class="game__wrapper">
 			<button @click="backToMenu" class="game__menu-button button button_size_m button_bright">Menu</button>
 			<button @click="resetSettings" class="button button_size_m button_bright">Restart</button>

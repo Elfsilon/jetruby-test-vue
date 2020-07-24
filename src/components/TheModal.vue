@@ -12,7 +12,7 @@
 <script>
 import TheSettings from '@/components/TheSettings';
 export default {
-	props: ['rowsCount', 'colsCount'],
+	props: ['rowsCount', 'colsCount', 'visible'],
 	components: {
 		TheSettings,
 	},
@@ -40,9 +40,5 @@ export default {
 	justify-content: center;
 	align-items: center;
 	background-color: rgba(65, 64, 64, 0.6);
-}
-
-.modal_hidden {
-	display: none;
 }
 </style>

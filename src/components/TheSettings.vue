@@ -1,13 +1,7 @@
 <template>
 	<div class="settings" :class="{ settings_highlight_wrong: isSelectWrong }">
-		<div
-			class="settings__board"
-			@mouseleave="
-				mouseOverRow = rowSelected;
-				mouseOverCol = colSelected;
-			"
-		>
-			<div class="settings__row" v-for="i in maxBoardRows" :key="i" @mouseenter="mouseOverRow = i">
+		<div class="settings__board" @mouseleave="setMouseCoords(rowSelected, colSelected)">
+			<div class="settings__row" v-for="i in maxBoardRows" :key="i" @mouseenter="setMouseOverRow(i)">
 				<div
 					class="settings__cell"
 					:class="{
@@ -16,7 +10,7 @@
 					}"
 					v-for="j in maxBoardCols"
 					:key="j"
-					@mouseenter="mouseOverCol = j"
+					@mouseenter="setMouseOverCol(j)"
 					@click="selectSize"
 				></div>
 			</div>
@@ -55,6 +49,19 @@ export default {
 					this.isSelectWrong = false;
 				}, 350);
 			}
+		},
+
+		setMouseCoords(row, col) {
+			this.setMouseOverRow(row);
+			this.setMouseOverCol(col);
+		},
+
+		setMouseOverRow: function(val) {
+			this.mouseOverRow = val;
+		},
+
+		setMouseOverCol: function(val) {
+			this.mouseOverCol = val;
 		},
 
 		cellInSelectedArea: function(i, j) {
@@ -99,6 +106,7 @@ export default {
 	border: 2px solid #828282;
 	border-radius: 7px;
 	margin: 2px;
+	transition: border-color 0.25s ease;
 }
 
 .settings__info {
